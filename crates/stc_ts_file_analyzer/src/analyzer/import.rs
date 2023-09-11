@@ -92,7 +92,6 @@ impl Analyzer<'_, '_> {
             let dep_id = match dep_id {
                 Some(v) => v,
                 None => {
-                    self.storage.report(ErrorKind::ModuleNotFound { span }.into());
                     continue;
                 }
             };
