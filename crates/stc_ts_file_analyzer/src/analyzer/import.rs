@@ -40,9 +40,13 @@ impl Analyzer<'_, '_> {
         let data = match self.data.imports.get(&(ctxt, dep_id)).cloned() {
             Some(v) => v,
             None => {
+                // if let Ok(v) = self.load_import_lazily(span, &base, dep_id, dst) {
+                //     self.data.imports.entry((ctxt, dep_id)).or_insert(v.clone());
+                //     v
+                // } else {
                 self.storage.report(ErrorKind::ModuleNotFound { span }.into());
-
                 return (ctxt, Type::any(span, Default::default()));
+                // }
             }
         };
 
@@ -92,6 +96,7 @@ impl Analyzer<'_, '_> {
             let dep_id = match dep_id {
                 Some(v) => v,
                 None => {
+                    self.storage.report(ErrorKind::ModuleNotFound { span }.into());
                     continue;
                 }
             };
